@@ -4,7 +4,8 @@ namespace Ovn_2_2 // Av Björn Lindqvist 221104. Rev2: 1106 (Utökad enligt sida
 {
     internal class Program
     {
-        static ConsoleUI ui = new ConsoleUI(); // Denna klass tar hand om alla Console.Read/Write kombinationer (ui.R, ui.RL, ui.W, ui.WL).
+        //static ConsoleUI ui = new ConsoleUI(); // Denna klass tar hand om alla Console.Read/Write kombinationer (ui.R, ui.RL, ui.W, ui.WL).
+        static IUI ui = new ConsoleUI(); // Ändrade till ett interface 221107.
         static Menu_Errtext merrt = new Menu_Errtext(); // Denna klass sköter menyer och felmeddelanden (merrt).
 
         static void Main(string[] args)

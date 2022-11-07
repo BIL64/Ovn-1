@@ -8,7 +8,8 @@ namespace Ovn_2_2
 {
     internal class Menu_Errtext // Lokal.
     {
-        ConsoleUI ui = new ConsoleUI(); // Är detta det smartaste sättet?
+        //ConsoleUI ui = new ConsoleUI(); // Är detta det smartaste sättet?
+        private readonly IUI ui = new ConsoleUI(); // Ändrade till ett interface 221107, men det blev mer eller lika mycket kod för det.
 
         public void M_header()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ovn_2_2
 {
-    internal class ConsoleUI // Lokal.
+    internal class ConsoleUI : IUI // Lokal.
     {
         public int R() // int här, resten string.
         {
