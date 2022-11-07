@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace Ovn_2
-{
+namespace Ovn_2 // Av Björn Lindqvist 221104. Rev1: 1105 (0 kr för < 5 & > 100 år, kommentarer och antalet = 201).
+{               // Ej fullständig (se Ovn-2-2).
     internal class Program
     {
         static void Main(string[] args)
@@ -10,7 +10,7 @@ namespace Ovn_2
 
             do
             {
-                Meny();
+                Meny(); // Huvudmenyn.
                 string sVal = Console.ReadLine();
 
                 switch (sVal)
@@ -19,7 +19,7 @@ namespace Ovn_2
                         bMenu = false;
                         break;
                     case "1":
-                        do
+                        do // Om felaktig inmatning görs så stannar man kvar i undermenyn.
                         {
                             UnderMeny();
                             string sUnderval = Console.ReadLine();
@@ -31,7 +31,7 @@ namespace Ovn_2
                             }
                         } while (sVal == "1");
                         break;
-                    default:
+                    default: // Inmatningscheck.
                         EndastNoll_Ett();
                         break;
                 }
@@ -39,7 +39,7 @@ namespace Ovn_2
             } while (bMenu);
         }
 
-        static void Antal(string sVal)
+        static void Antal(string sVal) // Både val 1 (ensam) och 2 (flera) kommer hit först.
         {
             bool bTest = true;
 
@@ -48,16 +48,18 @@ namespace Ovn_2
                 do
                 {
                     Console.WriteLine("");
-                    Console.Write("Ange din ålder (ENTER för att återgå): ");
+                    Console.Write("Ange din ålder (ENTER för att återgå): "); // Åldern för en ensam besökare.
                     string sSvar = Console.ReadLine();
                     if (sSvar != "")
                     {
-                        try
+                        try // Inmatningscheck och utresultat.
                         {
                             uint uiAge = uint.Parse(sSvar);
                             MenyRubrik();
-                            if (uiAge < 20) Console.WriteLine("Ungdomspris: 80kr.");
-                            else if (uiAge > 64) Console.WriteLine("Pensonärspris: 90kr.");
+                            if (uiAge < 5) Console.WriteLine("Gratis!"); // Prissättning för en ensam besökare.
+                            else if (uiAge < 20 && uiAge >= 5) Console.WriteLine("Ungdomspris: 80kr.");
+                            else if (uiAge > 64 && uiAge <= 100) Console.WriteLine("Pensonärspris: 90kr.");
+                            else if (uiAge > 100) Console.WriteLine("Gratis!");
                             else Console.WriteLine("Standardpris: 120kr.");
                             Console.ReadLine();
                             bTest = false;
@@ -73,20 +75,21 @@ namespace Ovn_2
             if (sVal == "2") Flera();
         }
 
-        static void Flera()
+        static void Flera() // Första instansen om man väljer fler än en besökare.
         {
             bool bTest = true;
 
             do
             {
                 Console.WriteLine("");
-                Console.Write("Hur många är ni? (ENTER för att återgå): ");
-                string sSvar = Console.ReadLine();
-                if (sSvar != "" && sSvar != "0" && sSvar != "1")
+                Console.Write("Hur många är ni? (ENTER för att återgå): "); // Första inmatning för flera besökare gäller antalet. 
+                string sSvar = Console.ReadLine();                          // Man kan återgå till huvudmenyn om man trycker
+                if (sSvar != "" && sSvar != "0" && sSvar != "1")            // enter direkt eller anger ett för lågt tal.
                 {
-                    try
+                    try // Inmatningscheck.
                     {
                         uint uiAntal = uint.Parse(sSvar);
+                        if (uiAntal > 200) uiAntal = 200; // Om högre antal än 200 matas in sätts 200, för att unvika krash.
                         KalkylFlera(uiAntal);
                         bTest = false;
                     }
@@ -99,24 +102,27 @@ namespace Ovn_2
             } while (bTest);
         }
 
-        static void KalkylFlera(uint uiAntal)
+        static void KalkylFlera(uint uiAntal) // Den andra inmatningen för flera besökare gäller åldern för var och en.
         {
-            uint[] uiSumma = new uint[1000];
+            uint[] uiSumma = new uint[200]; // Max 201 beökare.
             uint uiRak = 0;
             bool bTest = true;
 
             do
             {
                 Console.WriteLine("");
-                Console.Write($"Ange ålder för person {uiRak + 1} (ENTER för att återgå): ");
-                string sSvar = Console.ReadLine();
+                if (uiRak == 200) Console.Write($"Ange ålder för person {uiRak + 1} MAXANTAL!: "); // Varnar för att 200 är det högsta antalet.
+                else Console.Write($"Ange ålder för person {uiRak + 1} (ENTER för att återgå): "); // Man kan återgå till huvudmenyn om man
+                string sSvar = Console.ReadLine();                                                 // trycker enter direkt.
                 if (sSvar != "")
                 {
-                    try
+                    try // Inmatningscheck.
                     {
                         uint uiAge = uint.Parse(sSvar);
-                        if (uiAge < 20) uiSumma[uiRak] = 80;
-                        else if (uiAge > 64) uiSumma[uiRak] = 90;
+                        if (uiAge < 5) uiSumma[uiRak] = 0; // Prissättningen lagras i en uint-array för varje person.
+                        else if (uiAge < 20 && uiAge >= 5) uiSumma[uiRak] = 80;
+                        else if (uiAge > 64 && uiAge <= 100) uiSumma[uiRak] = 90;
+                        else if (uiAge > 100) uiSumma[uiRak] = 0;
                         else uiSumma[uiRak] = 120;
                         uiRak++;
                         if (uiRak > uiAntal - 1) KalkylResultat(uiSumma, uiAntal);
@@ -127,25 +133,26 @@ namespace Ovn_2
                     }
                 }
                 else bTest = false;
-            } while (bTest && uiRak < uiAntal);
+            } while (bTest && uiRak < uiAntal); // Två olika villkor styr om uthopp bör ske.
         }
 
-        static void KalkylResultat(uint[] uiSumma, uint uiAntal)
+        static void KalkylResultat(uint[] uiSumma, uint uiAntal) // Utresultatet för flera besökare (sista).
         {
             uint uiTotal = 0;
 
-            for (int i = 0; i <= uiAntal - 1; i++)
+            for (int i = 0; i <= uiAntal - 1; i++) // Arrayen från KalkylFlera länkas hit för summaberäkningen. 
             {
                 uiTotal += uiSumma[i];
             }
 
             MenyRubrik();
             Console.WriteLine($"Antal personer: {uiAntal}");
-            Console.WriteLine($"Samt totalkostnad för hela sällskapet: {uiTotal}kr.");
+            if (uiTotal == 0) Console.WriteLine($"Samt totalkostnad för hela sällskapet: Gratis!"); // Fixar "gratis" om 0kr?
+            else Console.WriteLine($"Samt totalkostnad för hela sällskapet: {uiTotal}kr.");
             Console.ReadLine();
         }
 
-        static void MenyRubrik()
+        static void MenyRubrik() // Alla menykonstruktioner börjar här (förutom utresultaten).
         {
             Console.Clear();
             Console.WriteLine("");
@@ -181,7 +188,7 @@ namespace Ovn_2
             Console.Write("Ange val: ");
         }
 
-        static void EndastNoll_Ett()
+        static void EndastNoll_Ett() // Felmeddelanden börjar här.
         {
             Console.WriteLine("");
             Console.Write("Godtagbara val är 0 eller 1...");
@@ -198,7 +205,7 @@ namespace Ovn_2
         static void EndastSiffror()
         {
             Console.WriteLine("");
-            Console.Write("Endast siffror godtas...");
+            Console.Write("Endast siffror (ej negativa) godtas...");
             Console.ReadLine();
         }
     }
