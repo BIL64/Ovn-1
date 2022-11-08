@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Personalregister // Av Björn Lindqvist 221101. För bättre version, se Ovn-1-2.
+namespace Ovn_1 // Av Björn Lindqvist 221101. För bättre version, se Ovn-1-2.
 {
     internal class Program // Klasser = 0. Metoder = 2. Attribut: Två arrayer och räknare. Max 1001 anställda.
     {
@@ -32,7 +32,7 @@ namespace Personalregister // Av Björn Lindqvist 221101. För bättre version, 
                         Console.WriteLine("UTSKRIFT AV ANSTÄLLDA");
                         Console.WriteLine("");
 
-                        for (int i = 0; i <= tal-1; i++)
+                        for (int i = 0; i <= tal - 1; i++)
                         {
                             Console.WriteLine($"Anställd: {personalnamn[i]} ({i + 1} av {tal})");
                             Console.WriteLine($"Lön: {personallon[i]} kr."); // Bokstäver kan blandas med siffror.
