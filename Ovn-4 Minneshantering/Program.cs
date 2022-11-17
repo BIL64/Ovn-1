@@ -643,8 +643,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                             Console.WriteLine();
                             Console.Write("Type n (ENTER för exit) max 47: ");
                             string str = Console.ReadLine();
-                            int number = 0;
-
+                            int number;
 
                             if (str != "") // Fixar uthopp med Enter (tom sträng).
                             {
