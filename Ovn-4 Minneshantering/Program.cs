@@ -327,10 +327,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                             bool rb_flag = false; // Symetriflaggor.
                             bool sb_flag = false;
                             bool cb_flag = false;
-
-                            //bool b_swap = false; // Flagga för bakoframvända parenteser typ )(, ][ eller }{.
-
-                            bool nested = false; // Flagga för nästlade parenteser.
+                            bool nested = false; // Flagga för intrasslade parenteser.
 
                             int tal1 = 0; // Hjälptal för test.
                             int tal2 = 0;
@@ -395,8 +392,8 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                 }
                                 if (tal1 != tal2) cb_flag = true; // Här slutar check av symetri.
 
-                                tal1 = 0; // Här börjar check av nästlade parenteser.
-                                tal2 = 0; // Larmar även när parenteserna är ojämnt fördelade (osymetetriskt).
+                                tal1 = 0; // Här börjar check av intrasslade parenteser.
+                                tal2 = 0; // Larmar även vid osymetri.
                                 rak = 0;
                                 rb_list.Clear();
                                 for (int i = 0; i < str.Length; i++) // Laddar om rb_list med alla parenteser.
@@ -428,7 +425,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                     if (item == '[' || item == ']') tal2 += 2;
                                     if (item == '{' || item == '}') tal2 += 3;
                                 }
-                                if (tal1 != tal2 && tal1 > 1 && tal2 > 1) nested = true; // Om talen är olika så kan den vara nästlad.
+                                if (tal1 != tal2 && tal1 > 1 && tal2 > 1) nested = true; // Om talen är olika så kan det tyda på intrassling.
 
                                 Console.WriteLine();
                                 if (rb_count + sb_count + cb_count != 0)
@@ -451,7 +448,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                     if (nested)
                                     {
                                         Console.WriteLine();
-                                        Console.WriteLine("There is brackets that can be classified as NESTED...");
+                                        Console.WriteLine("There are brackets that can be ENTANGLED...");
                                     }
                                     if (BrackRevOrder.Test(rb_list)) // Anropar klass.
                                     {
@@ -526,7 +523,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                     Console.ReadLine();
                                     break;
                                 }
-                                Console.WriteLine(Recursive.RecursiveOdd(number));
+                                Console.WriteLine(Recursive.RecursiveOdd(number)); //Klassanrop.
                             }
                             else
                             {
@@ -562,7 +559,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                 Console.WriteLine();
                                 for (int i = 0; i < number; i++)
                                 {
-                                    Console.WriteLine("n=" + i + " → " + Fibonacci_R.Fibonaccisekvens(i));
+                                    Console.WriteLine("n=" + i + " → " + Fibonacci_R.Fibonaccisekvens(i)); //Klassanrop.
                                 }
                                 Console.ReadLine();
                             }
@@ -631,7 +628,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                     Console.ReadLine();
                                     break;
                                 }
-                                Console.WriteLine(Iterative.IterativeOdd(number));
+                                Console.WriteLine(Iterative.IterativeOdd(number)); //Klassanrop.
                             }
                             else
                             {
@@ -668,7 +665,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                 Console.WriteLine();
                                 for (int i = 0; i < number; i++)
                                 {
-                                    Console.WriteLine("n=" + i + " → " + Fibonacci_I.Fibonaccisekvens(i));
+                                    Console.WriteLine("n=" + i + " → " + Fibonacci_I.Fibonaccisekvens(i)); // Klassanrop.
                                 }
                                 Console.ReadLine();
                             }
