@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using static System.Reflection.Metadata.BlobBuilder;
 
-namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
+namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121.
 {
     internal class Program
     {
@@ -22,6 +22,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                     + "\n4. Check Paranthesis"
                     + "\n5. Recursive"
                     + "\n6. Iterative"
+                    + "\n7. Odd Generator by BL"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -52,6 +53,9 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                         break;
                     case '6':
                         IterativeSub();
+                        break;
+                    case '7':
+                        OddGenerator();
                         break;
                     case '0':
                         Environment.Exit(0);
@@ -298,12 +302,10 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
 
             while (display)
             {
-                List<char> rb_list = new List<char>(); // Lista för round brackets.
-                List<char> sb_list = new List<char>(); // Lista för square brackets.
-                List<char> cb_list = new List<char>(); // Lista för curly brackets.
-
-                List<char> even_list = new List<char>(); // Lista för jämna index.
-                List<char> odd_list = new List<char>(); // Lista för udda index.
+                // Jag använde listor först men bytte sedan till köer. Köer fungerar lika bra samt slukar mindre datorkraft.
+                Queue<char> _queue = new Queue<char>(); // Kö för koll av intrasslade parenteser.
+                Queue<char> even_queue = new Queue<char>(); // Kö för jämna index.
+                Queue<char> odd_queue = new Queue<char>(); // Kö för udda index.
 
                 Console.Clear();
                 Console.WriteLine("CHECK PARANTHESIS\n(1 or 0) of your choice\n"
@@ -327,16 +329,14 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                             bool rb_flag = false; // Symetriflaggor.
                             bool sb_flag = false;
                             bool cb_flag = false;
-                            bool nested = false; // Flagga för intrasslade parenteser.
+                            bool entangled = false; // Flagga för intrasslade parenteser.
 
-                            int tal1 = 0; // Hjälptal för test.
-                            int tal2 = 0;
-                            int rak = 0;
-                            rb_list.Clear();
-                            sb_list.Clear();
-                            cb_list.Clear();
-                            even_list.Clear();
-                            odd_list.Clear();
+                            int rtal = 0; // Tal för symetritester.
+                            int stal = 0;
+                            int ctal = 0;
+                            _queue.Clear();
+                            even_queue.Clear();
+                            odd_queue.Clear();
                             Console.WriteLine();
                             Console.Write("Add string (ENTER för exit): ");
                             string str = Console.ReadLine();
@@ -345,118 +345,91 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                             {
                                 Char[] chars = str.ToCharArray(); // Gör först en array av strängen.
 
-                                for (int i = 0; i < str.Length; i++) // Här börjar laddningen av tre listor av det som finns i str.
+                                for (int i = 0; i < str.Length; i++) // Ny version: Nedkortad utvärdering av spegelsymetri.
                                 {
                                     if (chars[i] == '(' || chars[i] == ')') // Round brackets.
                                     {
-                                        if (chars[i] == '(') rb_list.Add('('); else rb_list.Add(')'); // Laddar cb_list.
+                                        if (chars[i] == '(') rtal++; else rtal--; // Ökar eller minskar round-tal.
+                                        if (chars[i] == '(') _queue.Enqueue('('); else _queue.Enqueue(')'); // Kö för trasselparenteserna.
                                     }
 
                                     if (chars[i] == '[' || chars[i] == ']') // Square brackets.
                                     {
-                                        if (chars[i] == '[') sb_list.Add('['); else sb_list.Add(']'); // Laddar sb_list.
+                                        if (chars[i] == '[') stal++; else stal--; // Ökar eller minskar square-tal.
+                                        if (chars[i] == '[') _queue.Enqueue('['); else _queue.Enqueue(']'); // Kö för trasselparenteserna.
                                     }
 
                                     if (chars[i] == '{' || chars[i] == '}') // Curly brackets.
                                     {
-                                        if (chars[i] == '{') cb_list.Add('{'); else cb_list.Add('}'); // Laddar cb_list.
+                                        if (chars[i] == '{') ctal++; else ctal--; // Ökar eller minskar curly-tal.
+                                        if (chars[i] == '{') _queue.Enqueue('{'); else _queue.Enqueue('}'); // Kö för trasselparenteserna.
                                     }
                                 }
 
-                                int rb_count = rb_list.Count; // Här börjar check av symetri.
-                                int sb_count = sb_list.Count; // <-- antalet element i listorna.
-                                int cb_count = cb_list.Count;
+                                if (rtal != 0) rb_flag = true; // Om talen är positiva eller negativa så tyder det på osymetri.
+                                if (stal != 0) sb_flag = true;
+                                if (ctal != 0) cb_flag = true; // Slut spegelsymetri.
 
-                                foreach (var item in rb_list) // Testar spegelsymetrin för rundparenteser.
-                                {
-                                    if (item == '(') tal1 += 1;
-                                    if (item == ')') tal2 += 1;
-                                }
-                                if (tal1 != tal2) rb_flag = true;
+                                int tal1 = 0; // Här börjar check av intrasslade parenteser.
+                                int tal2 = 0; // Larmar även vid osymetri.
+                                int rak = 0;
 
-                                tal1 = 0;
-                                tal2 = 0;
-                                foreach (var item in sb_list) // Testar spegelsymetrin för hakparenteser.
-                                {
-                                    if (item == '[') tal1 += 1;
-                                    if (item == ']') tal2 += 1;
-                                }
-                                if (tal1 != tal2) sb_flag = true;
-
-                                tal1 = 0;
-                                tal2 = 0;
-                                foreach (var item in cb_list) // Testar spegelsymetrin för klamrar.
-                                {
-                                    if (item == '{') tal1 += 1;
-                                    if (item == '}') tal2 += 1;
-                                }
-                                if (tal1 != tal2) cb_flag = true; // Här slutar check av symetri.
-
-                                tal1 = 0; // Här börjar check av intrasslade parenteser.
-                                tal2 = 0; // Larmar även vid osymetri.
-                                rak = 0;
-                                rb_list.Clear();
-                                for (int i = 0; i < str.Length; i++) // Laddar om rb_list med alla parenteser.
-                                {
-                                    char ch = chars[i];
-                                    if (ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}')
-                                    {
-                                        rb_list.Add(ch);
-                                    }
-                                }
-                                // rb_list innehåller nu förutom vanliga parenteser även hak- och klammerparenteser.
-
-                                foreach (var item in rb_list) // Laddar två nya listor med jämna- respektive ojämna index.
-                                {                             // Det är det som är hemligheten. Jag kom på det själv.
-                                    if (rak % 2 == 0) even_list.Add(item); else odd_list.Add(item);
+                                foreach (var item in _queue) // Ny version: Laddar köerna med jämna- respektive ojämna parenteser.
+                                {                            // Det är det som är hemligheten. Jag kom på det själv.
+                                    if (rak % 2 == 0) even_queue.Enqueue(item); else odd_queue.Enqueue(item);
                                     rak++;
                                 }
 
-                                foreach (var item in even_list) // Innehållet i jämn-listan omvandlas till tal beroende på tecken.
+                                foreach (var item in even_queue) // Innehållet i jämn-kön omvandlas till tal beroende på tecken.
                                 {
                                     if (item == '(' || item == ')') tal1 += 1;
                                     if (item == '[' || item == ']') tal1 += 2;
                                     if (item == '{' || item == '}') tal1 += 3;
                                 }
 
-                                foreach (var item in odd_list) // Innehållet i udd-listan omvandlas till tal beroende på tecken.
+                                foreach (var item in odd_queue) // Innehållet i udd-kön omvandlas till tal beroende på tecken.
                                 {
                                     if (item == '(' || item == ')') tal2 += 1;
                                     if (item == '[' || item == ']') tal2 += 2;
                                     if (item == '{' || item == '}') tal2 += 3;
                                 }
-                                if (tal1 != tal2 && tal1 > 1 && tal2 > 1) nested = true; // Om talen är olika så kan det tyda på intrassling.
+                                if (tal1 != tal2 && tal1 > 1 && tal2 > 1) entangled = true; // Om talen är olika så kan det tyda på intrassling.
 
-                                Console.WriteLine();
-                                if (rb_count + sb_count + cb_count != 0)
+                                if (rb_flag)
                                 {
-                                    if (rb_count > 0)
-                                    {
-                                        if (rb_flag) Console.WriteLine("(<> Round brackets are NOT shapely!");
-                                        else Console.WriteLine("(<>) Round brackets are *shapely*");
-                                    }
-                                    if (sb_count > 0)
-                                    {
-                                        if (sb_flag) Console.WriteLine("[<> Square brackets are NOT shapely!");
-                                        else Console.WriteLine("[<>] Square brackets are *shapely*");
-                                    }
-                                    if (cb_count > 0)
-                                    {
-                                        if (cb_flag) Console.WriteLine("{<> Curly brackets are NOT shapely!");
-                                        else Console.WriteLine("{<>} Curly brackets are *shapely*");
-                                    }
-                                    if (nested)
-                                    {
-                                        Console.WriteLine();
-                                        Console.WriteLine("There are brackets that can be ENTANGLED...");
-                                    }
-                                    if (BrackRevOrder.Test(rb_list)) // Anropar klass.
-                                    {
-                                        Console.WriteLine();
-                                        Console.WriteLine("Some brackets may be REVERSE order.");
-                                    }
+                                    Console.WriteLine();
+                                    Console.WriteLine("Round () brackets are NOT shapely!");
                                 }
-                                else Console.WriteLine("No brackets find.");
+
+                                if (sb_flag)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Square [] brackets are NOT shapely!");
+                                }
+
+                                if (cb_flag)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Curly {} brackets are NOT shapely!");
+                                }
+
+                                if (entangled)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There are brackets that can be ENTANGLED...");
+                                }
+                                if (BrackRevOrder.Test(_queue)) // Anropar klass.
+                                {
+                                    Console.WriteLine();
+                                    if (entangled) Console.WriteLine("or some brackets may be REVERSE order");
+                                    else Console.WriteLine("Some brackets may be REVERSE order");
+                                }
+
+                                if (!rb_flag && !sb_flag && !cb_flag && !entangled && !BrackRevOrder.Test(_queue))
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Everything looks fine.");
+                                }
                             }
                             else
                             {
@@ -486,9 +459,9 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
             while (display)
             {
                 Console.Clear();
-                Console.WriteLine("EXAMINE RECURSIVE ODD EVENT\n(1 or 0) of your choice\n"
+                Console.WriteLine("EXAMINE RECURSIVE ODD EVENT\n(1, 2 or 0) of your choice\n"
                     + "\n1. Start test of recursive n:th"
-                    + "\n2. Start test of fibonacci sequence"
+                    + "\n2. Start test of Fibonacci sequence"
                     + "\n0. Exit Examine odd event");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -561,7 +534,6 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                 {
                                     Console.WriteLine("n=" + i + " → " + Fibonacci_R.Fibonaccisekvens(i)); //Klassanrop.
                                 }
-                                Console.ReadLine();
                             }
                             else
                             {
@@ -591,9 +563,9 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
             while (display)
             {
                 Console.Clear();
-                Console.WriteLine("EXAMINE ITERATIVE ODD EVENT\n(1 or 0) of your choice\n"
+                Console.WriteLine("EXAMINE ITERATIVE ODD EVENT\n(1, 2 or 0) of your choice\n"
                     + "\n1. Start test of iterative n:th"
-                    + "\n2. Start test of fibonacci sequence"
+                    + "\n2. Start test of Fibonacci sequence"
                     + "\n0. Exit Examine odd event");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -641,7 +613,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                         do
                         {
                             Console.WriteLine();
-                            Console.Write("Type n (ENTER för exit) max 47: ");
+                            Console.Write("Type n (ENTER för exit) max 94: ");
                             string str = Console.ReadLine();
                             int number;
 
@@ -666,7 +638,6 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                                 {
                                     Console.WriteLine("n=" + i + " → " + Fibonacci_I.Fibonaccisekvens(i)); // Klassanrop.
                                 }
-                                Console.ReadLine();
                             }
                             else
                             {
@@ -685,25 +656,123 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117.
                 }
             }
         }
+    
+
+        /// <summary>
+        /// Examines  OddGenerator by BL
+        /// </summary>
+        static void OddGenerator()
+        {
+            bool display = true;
+
+            while (display)
+            {
+                Console.Clear();
+                Console.WriteLine("EXAMINE ODD GENERATOR BY BL\n(1, 2 or 0) of your choice\n"
+                    + "\n1. Start test of odd generator n:th"
+                    + "\n2. Read document by BL"
+                    + "\n0. Exit Examine odd generator");
+                char input = ' '; //Creates the character input to be used with the switch-case below.
+                try
+                {
+                    input = Console.ReadLine()![0]; //Tries to set input to the first char in an input line
+                }
+                catch (IndexOutOfRangeException) //If the input line is empty, we ask the users for some input.
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please enter some input!");
+                }
+                switch (input)
+                {
+                    case '1':
+                        do
+                        {
+                            Console.WriteLine();
+                            Console.Write("Type a number (ENTER för exit): ");
+                            string str = Console.ReadLine();
+                            int number;
+
+                            if (str != "") // Fixar uthopp med Enter (tom sträng).
+                            {
+                                try
+                                {
+                                    number = int.Parse(str);
+                                }
+                                catch
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Not a valid integer!");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                                Console.WriteLine(Generator.OddGenerator(number)); //Klassanrop.
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                break;
+                            }
+                        } while (true);
+                        break;
+                    case '2':
+                        Console.WriteLine();
+                        Console.WriteLine("Från pdf-filen Recursion");
+                        Console.WriteLine();
+                        Console.WriteLine("Har studerat den rekursiva funktionen genom att testa med olika värden.");
+                        Console.WriteLine("Jag har lagt in en breakpoint och stegat mig igenom funktionen, men jag");
+                        Console.WriteLine("kan (till skillnad mot den iterativa) inte förstå vad det är som händer.");
+                        Console.WriteLine();
+                        Console.WriteLine("Det börjar med att den anropar sig själv x antal gånger, sedan när n = 1");
+                        Console.WriteLine("så går den in i if-satsens retur, därefter går den till sista klammern");
+                        Console.WriteLine("och HOPPAR sedan tillbaks till den andra returen, sedan hoppar den fram");
+                        Console.WriteLine("och tillbaks x anta gånger. Därefter adderas två innan den lämnar.");
+                        Console.WriteLine();
+                        Console.WriteLine("Det blir rätt, men hur - det vet jag inte. Ett enklare sätt om man är ute");
+                        Console.WriteLine("efter udda nummer av n är att multiplicera med två och sedan subtrahera");
+                        Console.WriteLine("med ett (n = n x 2 – 1).");
+                        Console.ReadLine();
+                        break;
+                    case '0':
+                        display = false;
+                        break;
+                    default:
+                        Console.WriteLine("Please enter some valid input (1, 2 or 0)");
+                        Console.ReadLine();
+                        break;
+                }
+            }
+        }
     }
 }
 // 1. Ritade en skiss (ligger som en pdf i Lexicon).
 // 2. Value-typen fyller en minnesplats med data medan referens-typen endast pekar på en minnesplats.
 // 3. När y sätts lika med x så pekar dessa på samma minnesplats. När sedan y.MyValue laddas med
 // talet 4 så blir även innehållet i x.MyValue 4. De har ju samma minnesplats.
+
 // ExamineList:
 // 2. När innehållet blir lika stor som arrayen är för tillfället, då ökar den igen.
 // 3. Börjar med 4 och ökar sedan med det dubbla (8, 16, 32, 64...).
 // 4. Möjligen för att spara dataresurser... Exvis att ständigt behöva justera storleken vid snabba förlopp.
 // 5. Nej.
 // 6. Vid exvis matematiska operationer, då innehåll, placering och storlek måste styras hårt.
+
 // ExamineQueue.
 // 1. Det är alltid den som ställer sig längst bak i kön som blir expiderad först.
+
 // CheckParenthesis:
-// 1. List<T>
+// 1. Queue<string>
+
 // Rekursion:
 // 1. Har genomfört.
+
 // Iteration:
 // 1. Har genomfört.
+
 // Iteration är snabbare men kan fastna i sin egen loop, det kan inte hända för rekursion.
 // Ska erkännas, har inte studerat detta innan men efter lite googlande så löste det sig :)
+
+// 221121: Har uppdaterat en hel del. Listor är bytta mot köer i parenteschecken, symetrichecken är rejält
+// nedkortad, ett pdf-dokument om rekursion, OddGenerator är en udda metod för udda tal samt ingen bättre metod
+// för intrasslade parenteser har jag lyckats klämma fram. Jag har ändrat "nested" till "entangled" eftersom
+// nästlade/kapslade parenteser är helt ok. Lyckades inte lösa mysteriet med bakoframvända parenteser, bara nästan.
+// Det går nog att fixa men har varit tvungen att hinna läsa/repetera andra saker också...

@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace Ovn_4_Minneshantering
 {
-    public static class Iterative
+    public static class Iterative // Omändrad!
     {
         public static int IterativeOdd(int n)
         {
-            if (n == 0) return n;
-
             int result = 1;
 
-            for (int i = 1; i <= n; i++)
+            for (int i = 0; i < n - 1; i++)
             {
                 result += 2;
             }
