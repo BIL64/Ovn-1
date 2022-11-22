@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Net.Security;
+using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121.
@@ -15,7 +18,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Please navigate through the menu by inputting the number\n(1, 2, 3 ,4, 5, 6, 0) of your choice\n"
+                Console.WriteLine("Please navigate through the menu by inputting the number\n(1, 2, 3 ,4, 5, 6, 7 or 0) of your choice\n"
                     + "\n1. Examine a List"
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
@@ -61,7 +64,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Please enter some valid input (1, 2, 3, 4, 5, 6 or 0)");
+                        Console.WriteLine("Please enter some valid input (1, 2, 3, 4, 5, 6, 7 or 0)");
                         Console.ReadLine();
                         break;
                 }
@@ -117,7 +120,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
 
                                     Console.WriteLine("\nCapacity: " + theList.Capacity); // Uppgiftens nyckelvärdet (bestäms av List).
                                     Console.WriteLine("Count   : " + theList.Count); // Antalet element i listan.
-                                    Console.Write("List content: ");
+                                    if (theList.Count == 0) Console.Write("The list is emty! "); else Console.Write("List content: ");
 
                                     foreach (var item in theList) // Listan skrivs ut varje gång efter att man matat in eller tagit bort.
                                     {
@@ -194,11 +197,11 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                                     if (str.Substring(0, 1) == "+" && str.Length > 1) theQueue.Enqueue(str.Substring(1));
                                     else if (str == "+") theQueue.Enqueue("+");
 
-                                    if (str.Substring(0, 1) == "-") theQueue.Dequeue();
+                                    if (theQueue.Count > 0 && str.Substring(0, 1) == "-") theQueue.Dequeue();
 
                                     Console.WriteLine("\nCapacity: " + theQueue.Count); // Kapaciteten är hela tiden                                                                                     
                                     Console.WriteLine("Count   : " + theQueue.Count);   // detsamma som antalet element.
-                                    Console.Write("Queue content: ");
+                                    if (theQueue.Count == 0) Console.Write("Queue is empty! "); else Console.Write("Queue content: ");
 
                                     foreach (var item in theQueue) // Kön skrivs ut varje gång efter att man matat in eller tagit bort.
                                     {
@@ -326,12 +329,18 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                     case '1':
                         do
                         {
-                            bool rb_flag = false; // Symetriflaggor.
+                            bool rb_flag = false; // symmetriflaggor.
                             bool sb_flag = false;
                             bool cb_flag = false;
                             bool entangled = false; // Flagga för intrasslade parenteser.
+                            bool rb_rear = false; // Flaggor för bakoframvända  parenteser.
+                            bool sb_rear = false;
+                            bool cb_rear = false;
+                            bool rb_double = false; // Flaggor för dubletter.
+                            bool sb_double = false;
+                            bool cb_double = false;
 
-                            int rtal = 0; // Tal för symetritester.
+                            int rtal = 0; // Tal för symmetritester.
                             int stal = 0;
                             int ctal = 0;
                             _queue.Clear();
@@ -345,7 +354,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                             {
                                 Char[] chars = str.ToCharArray(); // Gör först en array av strängen.
 
-                                for (int i = 0; i < str.Length; i++) // Ny version: Nedkortad utvärdering av spegelsymetri.
+                                for (int i = 0; i < str.Length; i++) // Ny version: Nedkortad utvärdering av spegelsymmetri.
                                 {
                                     if (chars[i] == '(' || chars[i] == ')') // Round brackets.
                                     {
@@ -366,13 +375,14 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                                     }
                                 }
 
-                                if (rtal != 0) rb_flag = true; // Om talen är positiva eller negativa så tyder det på osymetri.
+                                if (rtal != 0) rb_flag = true; // Om talen är positiva eller negativa så tyder det på osymmetri.
                                 if (stal != 0) sb_flag = true;
-                                if (ctal != 0) cb_flag = true; // Slut spegelsymetri.
+                                if (ctal != 0) cb_flag = true; // Slut spegelsymmetri.
 
                                 int tal1 = 0; // Här börjar check av intrasslade parenteser.
-                                int tal2 = 0; // Larmar även vid osymetri.
+                                int tal2 = 0; // Larmar även vid osymmetri.
                                 int rak = 0;
+                                str = "";     // Det är viktigt att strängen töms här.
 
                                 foreach (var item in _queue) // Ny version: Laddar köerna med jämna- respektive ojämna parenteser.
                                 {                            // Det är det som är hemligheten. Jag kom på det själv.
@@ -395,40 +405,91 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
                                 }
                                 if (tal1 != tal2 && tal1 > 1 && tal2 > 1) entangled = true; // Om talen är olika så kan det tyda på intrassling.
 
-                                if (rb_flag)
+                                // Ny funktion: Check av bakoframvända parenteser och dubletter börjar här. 100% effektiv! Klassen har utgått!
+                                foreach (var item in _queue) { str += item.ToString(); } // Laddar str med enbart parenteser från _queue.
+
+                                do // Satsen DOP1 plockar bit för bit bort alla korrekta parenteser.
+                                {
+                                    if (str.IndexOf("()") != -1) str = str.Replace("()", "");
+                                    if (str.IndexOf("[]") != -1) str = str.Replace("[]", "");
+                                    if (str.IndexOf("{}") != -1) str = str.Replace("{}", "");
+
+                                } while (str.IndexOf("()") != -1 || str.IndexOf("[]") != -1 || str.IndexOf("{}") != -1);
+
+                                if (str.IndexOf(")(") != -1) rb_rear = true; // Nu kan vi kolla reversibla och om det finns dubletter?
+                                if (str.IndexOf("][") != -1) sb_rear = true; // Dubletter kan slinka förbi trasselparenteschecken! 
+                                if (str.IndexOf("}{") != -1) cb_rear = true;
+                                if (str.IndexOf("((") != -1 || str.IndexOf("))") != -1) rb_double = true;
+                                if (str.IndexOf("[[") != -1 || str.IndexOf("]]") != -1) sb_double = true;
+                                if (str.IndexOf("{{") != -1 || str.IndexOf("}}") != -1) cb_double = true;
+                                // Check av bakoframvända parenteser och dubletter slutar här.
+
+                                if (rb_flag) // Här börjar utskrift av felmeddelanden. Tror att jag täckt upp alla tänkbara fall...
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Round () brackets are NOT shapely!");
+                                    Console.WriteLine("Round () brackets are NOT symmetrically shaped");
                                 }
 
                                 if (sb_flag)
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Square [] brackets are NOT shapely!");
+                                    Console.WriteLine("Square [] brackets are NOT symmetrically shaped");
                                 }
 
                                 if (cb_flag)
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Curly {} brackets are NOT shapely!");
+                                    Console.WriteLine("Curly {} brackets are NOT symmetrically shaped");
                                 }
 
                                 if (entangled)
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("There are brackets that can be ENTANGLED...");
-                                }
-                                if (BrackRevOrder.Test(_queue)) // Anropar klass.
-                                {
-                                    Console.WriteLine();
-                                    if (entangled) Console.WriteLine("or some brackets may be REVERSE order");
-                                    else Console.WriteLine("Some brackets may be REVERSE order");
+                                    Console.WriteLine("There are brackets that can be ENTANGLED");
                                 }
 
-                                if (!rb_flag && !sb_flag && !cb_flag && !entangled && !BrackRevOrder.Test(_queue))
+                                if (rb_rear)
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Everything looks fine.");
+                                    Console.WriteLine("There is one or more REVERSE ROUND brackets");
+                                }
+
+                                if (sb_rear)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There is one or more REVERSE SQUARE brackets");
+                                }
+
+                                if (cb_rear)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There is one or more REVERSE CURLY brackets");
+                                }
+
+                                if (rb_double)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There is one or more DUBLICATE of round brackets");
+                                }
+
+                                if (sb_double)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There is one or more DUBLICATE of square brackets");
+                                }
+
+                                if (cb_double)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("There is one or more DUBLICATE of curly brackets");
+                                }
+
+                                if (!rb_flag && !sb_flag && !cb_flag && !entangled && !rb_rear && !sb_rear && !cb_rear &&
+                                !rb_double && !sb_double && !cb_double)
+                                {
+                                    Console.WriteLine();
+                                    if (str.Length > 0) Console.WriteLine("Something is wrong"); // Om något lyckas slinka förbi?
+                                    else Console.WriteLine("Everything looks fine");
                                 }
                             }
                             else
@@ -771,8 +832,15 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
 // Iteration är snabbare men kan fastna i sin egen loop, det kan inte hända för rekursion.
 // Ska erkännas, har inte studerat detta innan men efter lite googlande så löste det sig :)
 
-// 221121: Har uppdaterat en hel del. Listor är bytta mot köer i parenteschecken, symetrichecken är rejält
+// 221121: Har uppdaterat en hel del. Listor är bytta mot köer i parenteschecken, symmetrichecken är rejält
 // nedkortad, ett pdf-dokument om rekursion, OddGenerator är en udda metod för udda tal samt ingen bättre metod
 // för intrasslade parenteser har jag lyckats klämma fram. Jag har ändrat "nested" till "entangled" eftersom
 // nästlade/kapslade parenteser är helt ok. Lyckades inte lösa mysteriet med bakoframvända parenteser, bara nästan.
 // Det går nog att fixa men har varit tvungen att hinna läsa/repetera andra saker också...
+
+// Ny uppdatering (kvällstid). En ny funktion som kollar bakoframvända parenteser och som även tar hand om dubletter
+// har lagts till. Klassen BrackRevOrder har därför utgått. Funktionen är 100% effektiv och samtliga tänkbara fall av
+// dåligt formade parenteser täcks upp av CheckParanthesis numera. Man skulle enbart kunna använda do-while-satsen,
+// som jag döpt till DOP1 (tömmer en sträng eller kö på korrekta parenteser) som den enda checken. Om kön eller strängen
+// inte är tom efter att DOP1 gjort sitt, så är det något som inte stämmer: osymmetri, intrassling, bakoframvänt eller
+// dubletter. Allt detta ser DOP1. Det var visst enklare än vad jag först trodde...
