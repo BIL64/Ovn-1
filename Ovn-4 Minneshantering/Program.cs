@@ -120,7 +120,7 @@ namespace Ovn_4_Minneshantering // Av Björn Lindqvist 221117. Uppdaterad 221121
 
                                     Console.WriteLine("\nCapacity: " + theList.Capacity); // Uppgiftens nyckelvärdet (bestäms av List).
                                     Console.WriteLine("Count   : " + theList.Count); // Antalet element i listan.
-                                    if (theList.Count == 0) Console.Write("The list is emty! "); else Console.Write("List content: ");
+                                    if (theList.Count == 0) Console.Write("The list is empty! "); else Console.Write("List content: ");
 
                                     foreach (var item in theList) // Listan skrivs ut varje gång efter att man matat in eller tagit bort.
                                     {

@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ovn-3.4 Mer polymorfism", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ovn-4", "Ovn-4", "{3E608A99-B487-4C22-9BAF-CB6820F12733}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ovn-4 Minneshantering", "Ovn-4 Minneshantering\Ovn-4 Minneshantering.csproj", "{7DFB79F4-868C-49C1-B215-5EA42384C963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ovn-4 Minneshantering", "Ovn-4 Minneshantering\Ovn-4 Minneshantering.csproj", "{7DFB79F4-868C-49C1-B215-5EA42384C963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ovn-5 Garage", "Ovn-5 Garage\Ovn-5 Garage.csproj", "{EDA031E4-B3DF-4E7E-B8DE-59BE406A9F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{7DFB79F4-868C-49C1-B215-5EA42384C963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DFB79F4-868C-49C1-B215-5EA42384C963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DFB79F4-868C-49C1-B215-5EA42384C963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA031E4-B3DF-4E7E-B8DE-59BE406A9F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA031E4-B3DF-4E7E-B8DE-59BE406A9F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA031E4-B3DF-4E7E-B8DE-59BE406A9F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA031E4-B3DF-4E7E-B8DE-59BE406A9F09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
