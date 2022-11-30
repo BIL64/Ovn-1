@@ -14,4 +14,4 @@ internal class Program
 // IEnumerable visade mycket märkliga sökresultat när jag pekade på garaget. Använde en lista istället...
 // Ingen filhantering.
 // Inget test har gjorts. För lite tid över (kanske det går åt pipsvängen, men kan göra det senare).
-// Gå till "Options" alt 4 för att populera.
+// Gå till "Options" alt 4 för att populera. Med flygplansalternativet (1 plats) kan man testa olika felmedelanden enklare.
