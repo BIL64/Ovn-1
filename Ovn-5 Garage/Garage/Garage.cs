@@ -35,18 +35,6 @@ namespace Ovn_5_Garage.Garage
             }
         }
 
-        //public bool Add(T item, int index)
-        //{
-        //    ArgumentNullException.ThrowIfNull(item, nameof(item));
-
-        //    if (IsFull) return false;
-        //    else
-        //    {
-        //    vehicles[index] = item;
-        //    return true;
-        //    }
-        //}
-
         public bool Add(T newVehic) // Not by myself
         {
             for (var i = 0; i < vehicles.Length; i++)
@@ -55,23 +43,10 @@ namespace Ovn_5_Garage.Garage
                 {
                     vehicles[i] = newVehic;
                     return true;
-                }
+                }                
             }
             return false;
         }
-
-        //public bool Remove(T item) // Krånglig.
-        //{
-        //    try
-        //    {
-        //        vehicles = vehicles.Where(val => val != item).ToArray();
-        //        return true;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
 
         public bool Remove(int index) // By myself. Tar bort via index med kopieringsmetoden.
         {
@@ -92,40 +67,15 @@ namespace Ovn_5_Garage.Garage
                     temp[i] = vehicles[i];
                 }           
             }
-            vehicles = temp;
-            return findindex;            
+            vehicles = temp; 
+            return findindex;
         }
 
-        //public T[] Remove(int index) // Fuskis.
-        //{
-        //    for (int i = index; i < vehicles.Length - 1; i++)
-        //    {
-        //        vehicles[i] = vehicles[i + 1];
-        //    }
-        //    Array.Resize(ref vehicles, vehicles.Length - 1);
-        //    return vehicles;
-        //}
-
-        //public void Search()
-        //{
-        //    var myLinqQuery = from name in vehicles
-        //                      where name.Contains("Car")
-        //                      select name;
-        //}
-
-        public void Print(Action<Vehicle> action)
+        public IEnumerator<T> GetEnumerator() // Extra. David hjälpte mig med det här plus en hel del annat!
         {
             foreach (var item in vehicles)
             {
-                action?.Invoke(item);
-            }
-        }
-
-        public IEnumerator<T> GetEnumerator() // David fixade till detta, plus en hel del annat!
-        {
-            foreach(var item in vehicles)
-            {
-                if(item is not null)
+                if (item is not null)
                 {
                     //if (vehicles.Contains(item))
                     yield return item;

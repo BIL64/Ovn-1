@@ -12,7 +12,7 @@ namespace Ovn_5_Garage.UserInterface
         readonly byte Yp1 = 19; // Y-positionen för inputs.
         readonly byte Yp2 = 22; // Y-positionen för fel och varningar.
 
-        public (string, bool[]) Input1()
+        public (string, bool[]) InputAlternative1()
         {
             do
             {
@@ -24,7 +24,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, seq);
         }
 
-        public string Input2()
+        public string InputAlternative2()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -36,7 +36,7 @@ namespace Ovn_5_Garage.UserInterface
             return str;
         }
 
-        public (string, byte) Input3()
+        public (string, byte) InputAlternative3()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -49,7 +49,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, bytnum);
         }
 
-        public (string, short) Input4()
+        public (string, short) InputAlternative4()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -62,7 +62,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, shonum);
         }
 
-        public string Input5()
+        public string InputAlternative5()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -74,7 +74,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str);
         }
 
-        public string Input6()
+        public string InputAlternative6()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             CC.ClearIn(0, Yp1, 110, 1, 0, true);
@@ -83,7 +83,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str);
         }
 
-        public (string, short) Input7()
+        public (string, short) InputAlternative7()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -95,7 +95,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, shonum);
         }
 
-        public (string, int) Input8()
+        public (string, int) InputAlternative8()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -107,7 +107,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, number);
         }
 
-        public (string, byte) Input9()
+        public (string, byte) InputAlternative9()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -119,7 +119,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, bytnum);
         }
 
-        public (string, int) Input10()
+        public (string, int) InputAlternative10()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do
@@ -132,7 +132,7 @@ namespace Ovn_5_Garage.UserInterface
             return (str, number);
         }
 
-        public string Input11()
+        public string InputAlternative11()
         {
             CC.ClearIn(0, Yp1, 110, 4, 0, true);
             do

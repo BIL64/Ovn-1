@@ -7,7 +7,7 @@
         readonly byte Yp1 = 19; // Y-positionen för inputs.
         readonly byte Yp2 = 21; // Y-positionen för fel och varningar.
 
-        public string Input1()
+        public string InputAlternative1()
         {
             do
             {
@@ -18,7 +18,7 @@
             return (str);
         }
 
-        public (string, int) Input2()
+        public (string, int) InputAlternative2()
         {
             CC.ClearIn(0, Yp1, 65, 3, 0, true);
             do

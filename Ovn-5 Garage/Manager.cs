@@ -60,7 +60,7 @@ namespace Ovn_5_Garage // Manager sköter enbart valen.
                                     Hand.Choice_Search();
                                     break;
                                 case '3': // Lista alla efter fordonstyp.
-                                    Hand.Choice_ListAllType();
+                                    Hand.Choice_ListType();
                                     break;
                                 case '4': // Sök efter regnumret.
                                     Hand.Choice_SearchRegNumber();

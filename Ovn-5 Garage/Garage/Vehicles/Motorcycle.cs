@@ -24,7 +24,7 @@
 
         public static bool[] Seq6() // Brand, Length, Weight, Engine, Cylvol, Fuel
         {
-            return new bool[] { true, false, false, false, true, true };
+            return new bool[] { true, false, false, false, true, true }; // Sekvensangivelse, vilka inmatningar som ska göras.
         }
     }
 }

@@ -2,10 +2,10 @@
 {
     public static class Input // Hanterar inmatning i typiska huvud eller submenyer, men med begränsningen 0-9.
     {
-        public static bool Enter; // Flagga för uthopp med enter-tangenten direkt!
+        public static bool Enter; // Flagga för uthopp med entertangenten direkt!
 
-        public static char In(int max, bool quit)
-        {
+        public static char In(int max, bool quit) // Exvis Input.In(4, true) = 4 valalternativ och att man kan skriva "quit" för att hoppa ut.
+        {                                         // Input.In(x, false) innebär att man kan använda entertangenten för att hoppa ut/återgå.        
             char value = ' ';
             bool display = true;
 
@@ -31,7 +31,7 @@
                         }
                         else
                         {
-                            Console.SetCursorPosition(0, Console.CursorTop - 2);
+                            Console.SetCursorPosition(0, Console.CursorTop - 2); // Information om att man kan återgå med ett entertryck etc.
                             Console.ForegroundColor = ConsoleColor.Green;
                             if (quit) Console.WriteLine("    ☺ You can use ENTER for escaping but not always inside an" +
                                                         " input procedure. If so, use \"quit\"...");
@@ -67,7 +67,7 @@
 
             }
 
-            if (value == '↔') Enter = true; else Enter = false; // Endast vid entertryck blir den sann, annars falsk.
+            if (value == '↔') Enter = true; else Enter = false; // Flagga för uthopp. Endast vid entertryck blir den sann, annars falsk.
 
             return value;
         }

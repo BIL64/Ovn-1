@@ -18,3 +18,5 @@ internal class Program
 // 
 // Update 221130 kvällstid: Rättstavning, tog bort alla interface eftersom de inte är implementerade samt ändrat listningen
 // med totalantalet (typ 2 of 32). Man kan nu även ta bort fordon när man söker med registreringsnummer.
+//
+// Update 221130 kvällstid: Kommenterat text och snyggat till olika delar.

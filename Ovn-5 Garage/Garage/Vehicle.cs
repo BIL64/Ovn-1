@@ -15,7 +15,7 @@
             Vcolor = vcolor;
         }
 
-        public virtual string VehicleInfo()
+        public virtual string VehicleInfo() // Obligatoriska indata för alla fordon.
         {
             return $" ■ Type: {GetType().Name}" +
                 $"\n ■ License Plate: {Reg}" +

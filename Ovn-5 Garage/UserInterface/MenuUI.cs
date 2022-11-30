@@ -57,7 +57,7 @@
             CC.WL("");
             CC.WL("3) Sort type of vehicles");
             CC.WL("");
-            CC.WL("4) Search for a specific REG/Licens number");
+            CC.WL("4) Search for a specific REG/Licens number (and Remove...)");
             CC.WL("");
             CC.WL("0) Regress (or ENTER)");
             CC.WL("");

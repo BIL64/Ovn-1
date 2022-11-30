@@ -7,7 +7,7 @@
         readonly byte Yp1 = 19; // Y-positionen för inputs.
         readonly byte Yp2 = 22; // Y-positionen för fel och varningar.
 
-        public string Input1()
+        public string InputAlternative1()
         {
             do
             {
@@ -19,7 +19,7 @@
             return str;
         }
 
-        public (string, short) Input2()
+        public (string, short) InputAlternative2()
         {
             CC.ClearIn(0, Yp1, 100, 4, 0, false);
             do
@@ -31,7 +31,7 @@
             return (str, shonum);
         }
 
-        public string Input3()
+        public string InputAlternative3()
         {
             do
             {
@@ -43,7 +43,7 @@
             return str;
         }
 
-        public string Input4()
+        public string InputAlternative4()
         {
             do
             {
@@ -103,7 +103,7 @@
                     if (str == "car") str = "Car";
                     if (str == "mot") str = "Motorcycle";
                     if (str == "bus") str = "Bus";
-                    if (str == "boa") str = "boat";
+                    if (str == "boa") str = "Boat";
                     if (str == "air") str = "Airplane";
                     return false;
                 }
