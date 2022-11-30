@@ -21,7 +21,7 @@
                 $"\n ■ License Plate: {Reg}" +
                 $"\n ■ Nr of wheels: {Wheel}" +
                 $"\n ■ Nr of seats: {Seat}" +
-                $"\n ■ Color: {Vcolor},";
+                $"\n ■ Color: {Vcolor}";
         }
     }
 }

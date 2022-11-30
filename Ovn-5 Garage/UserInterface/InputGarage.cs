@@ -1,6 +1,6 @@
 ﻿namespace Ovn_5_Garage.UserInterface
 {
-    internal class InputGarage : IInputGarage
+    internal class InputGarage
     {
         string str = "";
         int number;

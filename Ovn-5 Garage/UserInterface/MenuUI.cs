@@ -1,6 +1,6 @@
 ﻿namespace Ovn_5_Garage.UserInterface // Samlade menyer.
 {
-    internal class MenuUI : IMenuUI
+    internal class MenuUI
     {
         public static string Str { set; get; } = "MAXIMUM";
         public static int Cap { set; get; } = 0;
@@ -8,15 +8,13 @@
 
         public void M_header()
         {
-            //Handler Ar = new();
-
             Console.Clear();
             CC.WL("");
             Console.ForegroundColor = ConsoleColor.Red;
             CC.WL($" {Str}  {Inr} of {Cap}");
             CC.WL("│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│");
             Console.ResetColor();
-            CC.WL("│WELLCOM TO THE MAXIMUM GARAGE│");
+            CC.WL("│WELCOM TO THE MAXIMUM GARAGE!│");
             Console.ForegroundColor = ConsoleColor.Red;
             CC.WL("│░░░░░░░░░░░░░░=░░░░░░░░░░░░░░│");
             Console.ResetColor();

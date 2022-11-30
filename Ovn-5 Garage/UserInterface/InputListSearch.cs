@@ -1,6 +1,6 @@
 ﻿namespace Ovn_5_Garage.UserInterface
 {
-    internal class InputListSearch : IInputListSearch
+    internal class InputListSearch
     {
         string str = "";
         short shonum;
@@ -104,7 +104,7 @@
                     if (str == "mot") str = "Motorcycle";
                     if (str == "bus") str = "Bus";
                     if (str == "boa") str = "boat";
-                    if (str == "air") str = "Airoplane";
+                    if (str == "air") str = "Airplane";
                     return false;
                 }
             }

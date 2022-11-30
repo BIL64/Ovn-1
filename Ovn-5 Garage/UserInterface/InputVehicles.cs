@@ -2,7 +2,7 @@
 
 namespace Ovn_5_Garage.UserInterface
 {
-    internal class InputVehicles : IInputVehicles
+    internal class InputVehicles
     {
         string str = "";
         bool[] seq = new bool[5];

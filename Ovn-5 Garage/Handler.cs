@@ -146,7 +146,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                     MenuUI.Inr = rak;
 
                     CC.ClearIn(0, Yp1 - 4, 110, 8, 0, true);
-                    CC.WB($"Your vehicle was succesfully parked");
+                    CC.WB($"Your vehicle was successfully parked");
                     CC.RL();
                 }
                 else
@@ -176,7 +176,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                     foreach (var item1 in garage)
                     {
                         CC.ClearIn(0, Yp1 - 4, 70, 15, 0, false);
-                        CC.WR(" " + (irak + 1) + "\n" + item1.VehicleInfo());
+                        CC.WR(" " + (irak + 1) + " of " + rak + "\n" + item1.VehicleInfo());
                         irak++;
                         if (irak == rak) CC.WY("\nThat was the last one...");
                         CC.WG("\nQuit? or type \"rem\" to REMOVE this vehicle. Press ENTER to proceed...");
@@ -190,7 +190,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                         rak--;
                         MenuUI.Inr = rak;
                         CC.ClearIn(0, Yp1 - 4, 70, 15, 0, false);
-                        CC.WB($"The vehicle was succesfully removed...");
+                        CC.WB($"The vehicle was successfully removed...");
                         CC.RL();
                     }
                 }
@@ -213,7 +213,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 foreach (var item in garage)
                 {
                     CC.ClearIn(0, Yp1, 45, 15, 0, false);
-                    CC.WR(" " + (irak + 1) + "\n" + item.VehicleInfo());
+                    CC.WR(" " + (irak + 1) + " of " + rak + "\n" + item.VehicleInfo());
                     irak++;
                     if (irak == rak) CC.WY("\nThat was the last one...");
                     CC.WG("\nQuit? or press ENTER to proceed...");
@@ -294,7 +294,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 foreach (var item2 in samples)
                 {
                         CC.ClearIn(0, Yp1, 110, 15, 0, false);
-                        CC.WR(" " + (irak + 1) + "\n" + item2);
+                        CC.WR(" " + (irak + 1) + " of " + samples.Count + "\n" + item2);
                         irak++;
                         if (irak == samples.Count) CC.WY("\nThat was the last one...");
                         CC.WG("\nQuit? or press ENTER to proceed...");
@@ -307,7 +307,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 if (irak == 0)
                 {
                     CC.ClearIn(0, Yp1, 110, 3, 0, false);
-                    CC.WY($"No items was found...");
+                    CC.WY($"No items were found...");
                     CC.RL();
                 }
             }
@@ -343,7 +343,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                     if (item2.GetType().Name == v_type)
                     {
                         CC.ClearIn(0, Yp1, 110, 15, 0, false);
-                        CC.WR(" " + (irak + 1) + "\n" + item2.VehicleInfo());
+                        CC.WR(" " + (irak + 1) + " of " + rak2 + "\n" + item2.VehicleInfo());
                         irak++;
                         if (irak == rak2) CC.WY("\nThat was the last one...");
                         CC.WG("\nQuit? or press ENTER to proceed...");
@@ -356,7 +356,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 if (irak == 0)
                 {
                     CC.ClearIn(0, Yp1, 110, 3, 0, false);
-                    CC.WY($"No items was found...");
+                    CC.WY($"No items were found...");
                     CC.RL();
                 }
             }
@@ -379,33 +379,45 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             int irak = 0;
             int rak2 = 0;
+            int rak3 = 0;
 
             if (rak > 0 && getout != "")
             {
                 foreach (var item1 in garage)
                 {
-                    if (item1.Reg.ToLower() == v_reg.ToLower()) rak2++;
+                    if (item1.Reg.ToLower() == v_reg.ToLower()) rak2++;                    
                 }
 
                 foreach (var item2 in garage)
                 {
                     if (item2.Reg.ToLower() == v_reg.ToLower())
                     {
-                        CC.ClearIn(0, Yp1, 110, 15, 0, false);
-                        CC.WR(" " + (irak + 1) + "\n" + item2.VehicleInfo());
+                        CC.ClearIn(0, Yp1, 110, 18, 0, false);
+                        CC.WR(" " + (irak + 1) + " of " + rak2 + "\n" + item2.VehicleInfo());
                         irak++;
                         if (irak == rak2) CC.WY("\nThat was the last one...");
-                        CC.WG("\nQuit? or press ENTER to proceed...");
+                        CC.WG("\nQuit? or type \"rem\" to REMOVE this vehicle. Press ENTER to proceed...");
                         getout = CC.RL();
                     }
-                    if (getout == "quit") break;
+                    rak3++;
+                    if (getout == "quit" || getout == "rem") break;
 
+                }
+
+                if (getout == "rem")
+                {
+                    garage.Remove(rak3 - 1);
+                    rak--;
+                    MenuUI.Inr = rak;
+                    CC.ClearIn(0, Yp1, 110, 18, 0, false);
+                    CC.WB($"The vehicle was successfully removed...");
+                    CC.RL();
                 }
 
                 if (irak == 0)
                 {
                     CC.ClearIn(0, Yp1, 110, 3, 0, false);
-                    CC.WY($"No items was found...");
+                    CC.WY($"No items were found...");
                     CC.RL();
                 }
             }
