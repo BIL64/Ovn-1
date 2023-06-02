@@ -4,7 +4,7 @@ Tidiga övningar som ingår i Lexicons yrkesutbildning till .Net-programmerare.
 
 Inkapsling, Polymorfism, Arv och Minneshantering är grundläggande begrepp som
 alla som skriver i C# bör känna till, innan man ger sig på mer komplicerade
-saker såsom exempelvis Garageövningar, MVC och Blazor...
+saker såsom exempelvis garageövningar, MVC och Blazor...
 
 Uppgifter eller övningar där man ska konstruera ett garage eller en djurfarm
 med olika djur eller fordon är ett återkommande tema för de som studerat vid
