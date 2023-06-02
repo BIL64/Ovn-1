@@ -15,7 +15,7 @@
 
                 try
                 {
-                    value = Console.ReadLine()[0]; //Tries to set input to the first char in an input line
+                    value = Console.ReadLine()![0]; //Tries to set input to the first char in an input line
 
                     string str = value.ToString(); // Inget ska väl kunna gå snett här?
 

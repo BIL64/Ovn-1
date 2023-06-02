@@ -10,15 +10,34 @@
         {
             Console.Clear();
             CC.WL("");
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             CC.WL($" {Str}  {Inr} of {Cap}");
-            CC.WL("│░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│");
-            Console.ResetColor();
-            CC.WL("│WELCOM TO THE MAXIMUM GARAGE!│");
+            Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Red;
-            CC.WL("│░░░░░░░░░░░░░░=░░░░░░░░░░░░░░│");
+            CC.WL("|#############################|");
+            Console.ForegroundColor = ConsoleColor.Red;
+            CC.W("|");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Red;
+            CC.W("  WELCOME TO MAXIMUM GARAGE  ");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Red;
+            CC.WL("|");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            CC.WL("|##############=##############|");
+            Console.BackgroundColor = ConsoleColor.Black;
+            CC.W("  ");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            CC.W("||");
+            Console.BackgroundColor = ConsoleColor.Black;
+            CC.W("          ");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            CC.W("|#|");
+            Console.BackgroundColor = ConsoleColor.Black;
+            CC.W("          ");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            CC.WL("||");
             Console.ResetColor();
-            CC.WL("  ░░          ░░░          ░░");
             CC.WL("");
         }
 
@@ -29,9 +48,9 @@
             CC.WL("");
             CC.WL("2) Add or Remove vehicle");
             CC.WL("");
-            CC.WL("3) Search or print vehicle");
+            CC.WL("3) Print all, search or sort");
             CC.WL("");
-            CC.WL("4) Options");
+            CC.WL("4) Popularize options");
             CC.WL("");
             CC.WL("0) Exit");
             CC.WL("");
@@ -69,6 +88,8 @@
             CC.WL("1) Popularize CityNorth with 8 different vehicles");
             CC.WL("");
             CC.WL("2) Popularize SkyPark with 1 airplane");
+            CC.WL("");
+            CC.WL("3) Add three different vehicles");
             CC.WL("");
             CC.WL("0) Regress (or ENTER)");
             CC.WL("");

@@ -9,7 +9,7 @@
 
         public static string RL() // Ersätter "Console.ReadLine()" = CC.RL()
         {
-            return Console.ReadLine();
+            return Console.ReadLine()!;
         }
 
         public static void W(string input) // Ersätter "Console.Write()" = CC.W()
@@ -63,7 +63,7 @@
                 }
                 Console.WriteLine(""); // Stegar ned en rad.
             }
-            if (Line) Thread.Sleep(100); // Fördröjning. Medför att upprepade varningar med samma innehåll inte förblir statiska.
+            Thread.Sleep(100); // Fördröjning. Medför att upprepade varningar med samma innehåll inte förblir omärkbara för ögat.
             Console.SetCursorPosition(Xcol, Yrow + Offset); // Hoppar tillbaks igen.
         }
     }

@@ -40,7 +40,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 if (Arraysize > 0)
                 {
                     CC.ClearIn(0, Yp2 - 1, 65, 1, 0, true);
-                    CC.WY($"The content in the garage {Arrayname} will be deletet...");
+                    CC.WY($"The content in the garage {Arrayname} will be deleted...");
                     CC.W($"Type \"yes\" to proceed: ");
                     string str = CC.RL();
 
@@ -55,7 +55,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                         MenuUI.Inr = rak;
 
                         CC.ClearIn(0, Yp2 - 1, 65, 2, 0, true);
-                        CC.WB($"A garage with the name {Arrayname} with {Arraysize} spaces is ready to be used");
+                        CC.WB($">>> {Arrayname} with {Arraysize} spaces is ready to be used");
                         CC.RL();
                         rak = 0;
                     }
@@ -78,7 +78,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                     MenuUI.Inr = rak;
 
                     CC.ClearIn(0, Yp2 - 1, 65, 2, 0, true);
-                    CC.WB($"A garage with the name {Arrayname} with {Arraysize} spaces is ready to be used");
+                    CC.WB($">>> {Arrayname} with {Arraysize} spaces is ready to be used");
                     CC.RL();
                     rak = 0;
                 }
@@ -183,7 +183,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 {
                     foreach (var item1 in garage) // Skriver ut alla.
                     {
-                        CC.ClearIn(0, Yp1 - 4, 70, 15, 0, false);
+                        CC.ClearIn(0, Yp1 - 4, 70, 17, 0, false);
                         CC.WR(" " + (irak + 1) + " of " + rak + "\n" + item1.VehicleInfo());
                         irak++;
                         if (irak == rak) CC.WY("\nThat was the last one...");
@@ -197,7 +197,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                         garage.Remove(irak - 1);
                         rak--;
                         MenuUI.Inr = rak;
-                        CC.ClearIn(0, Yp1 - 4, 70, 15, 0, false);
+                        CC.ClearIn(0, Yp1 - 4, 70, 17, 0, false);
                         CC.WB($"The vehicle was successfully removed...");
                         CC.RL();
                     }
@@ -407,7 +407,17 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
         public void Choice_Populate1() // Seeding.
         {
-            if (Arraysize == 0)
+            string str = "yes";
+
+            if (Arraysize > 0)
+            {
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WY($"The content in the garage {Arrayname} will be deleted...");
+                CC.W($"Type \"yes\" to proceed: ");
+                str = CC.RL();
+            }
+
+            if (str == "yes" || str == "Yes" || str == "YES")
             {
                 Arraysize= 20;
                 Arrayname = "CityNorth";
@@ -432,21 +442,31 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 MenuUI.Str = Arrayname;
                 MenuUI.Cap = Arraysize;
                 MenuUI.Inr = rak;
-                CC.ClearIn(0, Yp2 - 7, 65, 1, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
                 CC.WB($"Garage {Arrayname} has been seeded with {rak} vehicles");
                 CC.RL();
             }
             else
             {
-                CC.ClearIn(0, Yp2 - 7, 65, 1, 0, true);
-                CC.WY($"The garage must be null and empty before populating...");
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WY($"The seed operation was not carried out...");
                 CC.RL();
             }
         }
 
         public void Choice_Populate2() // Seeding.
         {
-            if (Arraysize == 0)
+            string str = "yes";
+
+            if (Arraysize > 0)
+            {
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WY($"The content in the garage {Arrayname} will be deleted...");
+                CC.W($"Type \"yes\" to proceed: ");
+                str = CC.RL();
+            }
+
+            if (str == "yes" || str == "Yes" || str == "YES")
             {
                 Arraysize = 1;
                 Arrayname = "SkyPark";
@@ -457,14 +477,46 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 MenuUI.Str = Arrayname;
                 MenuUI.Cap = Arraysize;
                 MenuUI.Inr = rak;
-                CC.ClearIn(0, Yp2 - 7, 65, 1, 0, true);
-                CC.WB($"Garage {Arrayname} has been seeded with {rak} vehicles");
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WB($"{Arrayname} has been seeded with {rak} vehicles");
                 CC.RL();
             }
             else
             {
-                CC.ClearIn(0, Yp2 - 7, 65, 1, 0, true);
-                CC.WY($"The garage must be null and empty before populating...");
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WY($"The seed operation was not carried out...");
+                CC.RL();
+            }
+        }
+
+        public void Choice_Populate3() // Seeding.
+        {
+            if (rak + 3 > Arraysize)
+            {
+                if (Arraysize < 1)
+                {
+                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                    CC.WY($"There is no garage or any capacity declared yet...");
+                    CC.RL();
+                }
+                else
+                {
+                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                    CC.WY($"You try to add vehicles beyond the capacity for this garage...");
+                    CC.RL();
+                }
+            }
+            else
+            {
+                garage.Add(new Car("VWG333", 4, 4, "Yellow", "VW Golf", 3, 1550, 1, 2200, "Biofuel"));
+                rak++;
+                garage.Add(new Motorcycle("SUZ750", 2, 1, "White/blue", "Suzuki", 750, "Gasoline/Petrol"));
+                rak++;
+                garage.Add(new Bus("BUS789", 6, 39, "Red", "Man", 14, 6120, 1, 3980, "Diesel/Kerosene"));
+                rak++;
+                MenuUI.Inr = rak;
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.WB($"Three seeded vehicles has been added to {Arrayname}");
                 CC.RL();
             }
         }

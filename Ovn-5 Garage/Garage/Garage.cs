@@ -67,7 +67,8 @@ namespace Ovn_5_Garage.Garage
                     temp[i] = vehicles[i];
                 }           
             }
-            vehicles = temp; 
+            
+            if (findindex) vehicles = temp; 
             return findindex;
         }
 

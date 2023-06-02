@@ -72,7 +72,7 @@ namespace Ovn_5_Garage // Manager sköter enbart valen.
                         do
                         {
                             Menu.M_sub3(); // Meny för populering.
-                            switch (Input.In(2, false))
+                            switch (Input.In(3, false))
                             {
                                 case '0': // Exit.
                                     Input.Enter = true;
@@ -82,6 +82,9 @@ namespace Ovn_5_Garage // Manager sköter enbart valen.
                                     break;
                                 case '2': // Populationsalternativ 2.
                                     Hand.Choice_Populate2();
+                                    break;
+                                case '3': // Populationsalternativ 3.
+                                    Hand.Choice_Populate3();
                                     break;
                             }
                         } while (!Input.Enter);
