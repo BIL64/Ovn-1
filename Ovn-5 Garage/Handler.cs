@@ -21,10 +21,16 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
         byte Yp1 = 19; // Y-positionen för inputs.
         byte Yp2 = 22; // Y-positionen för fel och varningar.
 
-        public Garage<Vehicle> garage { get; set; }
+        public Garage<Vehicle>? myGar; // Fixar null-problematiken.
 
-        public Handler()
+        public Garage<Vehicle> Garage // Fixar null-problematiken.
         {
+            get
+            {
+                if (myGar is not null) return myGar;
+                else return Garage; // Returnerar Garage!
+            }
+            set { myGar = value; }
         }
 
         public void Choice_NewGarage() // För initiering av ett nytt garage.
@@ -49,7 +55,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                         Arrayname = a_name;
                         Arraysize = number;
                         rak = 0;
-                        garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
+                        Garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
                         MenuUI.Str = Arrayname;
                         MenuUI.Cap = Arraysize;
                         MenuUI.Inr = rak;
@@ -72,7 +78,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                     Arrayname = a_name;
                     Arraysize = number;
                     rak = 0;
-                    garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
+                    Garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
                     MenuUI.Str = Arrayname;
                     MenuUI.Cap = Arraysize;
                     MenuUI.Inr = rak;
@@ -124,31 +130,31 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
                 {
                     if (v_type == "Car")
                     {
-                        garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
+                        Garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
                     }
                     if (v_type == "Motorcycle")
                     {
-                        garage.Add(new Motorcycle(v_reg, v_wheel, v_seat, v_color, v_brand, v_cylvol, v_fuel));
+                        Garage.Add(new Motorcycle(v_reg, v_wheel, v_seat, v_color, v_brand, v_cylvol, v_fuel));
                     }
                     if (v_type == "Bus")
                     {
-                        garage.Add(new Bus(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
+                        Garage.Add(new Bus(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
                     }
                     if (v_type == "Boat")
                     {
-                        garage.Add(new Boat(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_fuel));
+                        Garage.Add(new Boat(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_fuel));
                     }
                     if (v_type == "Airplane")
                     {
-                        garage.Add(new Airplane(v_reg, v_wheel, v_seat, v_color, v_length, v_weight, v_engine, v_fuel));
+                        Garage.Add(new Airplane(v_reg, v_wheel, v_seat, v_color, v_length, v_weight, v_engine, v_fuel));
                     }
                     if (v_type == "quit") // Extra.
                     {
-                        garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
+                        Garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
                     }
                     if (v_type == "quit") // Extra.
                     {
-                        garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
+                        Garage.Add(new Car(v_reg, v_wheel, v_seat, v_color, v_brand, v_length, v_weight, v_engine, v_cylvol, v_fuel));
                     }
                     rak++;
                     MenuUI.Inr = rak;
@@ -181,7 +187,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
                 if (rak > 0)
                 {
-                    foreach (var item1 in garage) // Skriver ut alla.
+                    foreach (var item1 in Garage) // Skriver ut alla.
                     {
                         CC.ClearIn(0, Yp1 - 4, 70, 17, 0, false);
                         CC.WR(" " + (irak + 1) + " of " + rak + "\n" + item1.VehicleInfo());
@@ -194,7 +200,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
                     if (str == "rem")
                     {
-                        garage.Remove(irak - 1);
+                        Garage.Remove(irak - 1);
                         rak--;
                         MenuUI.Inr = rak;
                         CC.ClearIn(0, Yp1 - 4, 70, 17, 0, false);
@@ -218,7 +224,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (rak > 0)
             {
-                foreach (var item in garage) // Skriver ut alla.
+                foreach (var item in Garage) // Skriver ut alla.
                 {
                     CC.ClearIn(0, Yp1, 45, 15, 0, false);
                     CC.WR(" " + (irak + 1) + " of " + rak + "\n" + item.VehicleInfo());
@@ -249,7 +255,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (rak > 0 && getout != "")
             {
-                foreach (var item in garage) // Dubbla for som söker igenom, dels fordonen i garaget och dels fyra egenskaper.
+                foreach (var item in Garage) // Dubbla for som söker igenom, dels fordonen i garaget och dels fyra egenskaper.
                 {
                     for (int i = 0; i < s_alla.Length; i++)
                     {
@@ -306,12 +312,12 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (rak > 0 && getout != "")
             {
-                foreach (var item1 in garage) // Kollar hur många typer det finns och tilldelar antalet till rak2.
+                foreach (var item1 in Garage) // Kollar hur många typer det finns och tilldelar antalet till rak2.
                 {                             // Annars vet man inte totalen.
                     if (item1.GetType().Name == v_type) rak2++;
                 }
 
-                foreach (var item2 in garage) // Repeterar och skriver ut dem.
+                foreach (var item2 in Garage) // Repeterar och skriver ut dem.
                 {
                     if (item2.GetType().Name == v_type)
                     {
@@ -356,12 +362,12 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (rak > 0 && getout != "")
             {
-                foreach (var item1 in garage) // Kollar hur många regnummer det finns och tilldelar antalet till rak2.
+                foreach (var item1 in Garage) // Kollar hur många regnummer det finns och tilldelar antalet till rak2.
                 {                             // Annars vet man inte totalen.
                     if (item1.Reg.ToLower() == v_reg.ToLower()) rak2++;                    
                 }
 
-                foreach (var item2 in garage) // Repeterar och skriver ut dem.
+                foreach (var item2 in Garage) // Repeterar och skriver ut dem.
                 {
                     if (item2.Reg.ToLower() == v_reg.ToLower())
                     {
@@ -379,7 +385,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
                 if (getout == "rem")
                 {
-                    garage.Remove(rak3 - 1);
+                    Garage.Remove(rak3 - 1);
                     rak--;
                     MenuUI.Inr = rak;
                     CC.ClearIn(0, Yp1, 110, 18, 0, false);
@@ -411,7 +417,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (Arraysize > 0)
             {
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WY($"The content in the garage {Arrayname} will be deleted...");
                 CC.W($"Type \"yes\" to proceed: ");
                 str = CC.RL();
@@ -421,34 +427,34 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
             {
                 Arraysize= 20;
                 Arrayname = "CityNorth";
-                garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
+                Garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
                 rak = 0;
-                garage.Add(new Car("BIL111", 4, 4, "Gray", "KIA", 3, 1100, 1, 1600, "Gasoline/Petrol"));
+                Garage.Add(new Car("BIL111", 4, 4, "Gray", "KIA", 3, 1100, 1, 1600, "Gasoline/Petrol"));
                 rak++;
-                garage.Add(new Car("RED222", 4, 4, "Red", "Volvo", 3, 1400, 1, 1800, "Diesel/Kerosene"));
+                Garage.Add(new Car("RED222", 4, 4, "Red", "Volvo", 3, 1400, 1, 1800, "Diesel/Kerosene"));
                 rak++;
-                garage.Add(new Car("BAD333", 4, 4, "Black", "Merzedes", 3, 3550, 1, 2100, "Gasoline/Petrol"));
+                Garage.Add(new Car("BAD333", 4, 4, "Black", "Merzedes", 3, 3550, 1, 2100, "Gasoline/Petrol"));
                 rak++;
-                garage.Add(new Car("BIO444", 4, 4, "Green", "SAAB", 3, 1300, 1, 1600, "Biofuel"));
+                Garage.Add(new Car("BIO444", 4, 4, "Green", "SAAB", 3, 1300, 1, 1600, "Biofuel"));
                 rak++;
-                garage.Add(new Car("E L O N", 4, 4, "Blue", "Tesla", 3, 2200, 1, 0, "Battery/Hybride"));
+                Garage.Add(new Car("E L O N", 4, 4, "Blue", "Tesla", 3, 2200, 1, 0, "Battery/Hybride"));
                 rak++;
-                garage.Add(new Bus("BUS555", 6, 32, "White", "Scania", 12, 5500, 1, 3800, "Diesel/Kerosene"));
+                Garage.Add(new Bus("BUS555", 6, 32, "White", "Scania", 12, 5500, 1, 3800, "Diesel/Kerosene"));
                 rak++;
-                garage.Add(new Motorcycle("YAM666", 2, 1, "Black", "Yamaha", 1100, "Gasoline/Petrol"));
+                Garage.Add(new Motorcycle("YAM666", 2, 1, "Black", "Yamaha", 1100, "Gasoline/Petrol"));
                 rak++;
-                garage.Add(new Boat("DAS096", 2, 6, "Gray", "Cresent", 4, 1200, 2, "Gas/H2e"));
+                Garage.Add(new Boat("DAS096", 2, 6, "Gray", "Cresent", 4, 1200, 2, "Gas/H2e"));
                 rak++;
                 MenuUI.Str = Arrayname;
                 MenuUI.Cap = Arraysize;
                 MenuUI.Inr = rak;
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WB($"Garage {Arrayname} has been seeded with {rak} vehicles");
                 CC.RL();
             }
             else
             {
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WY($"The seed operation was not carried out...");
                 CC.RL();
             }
@@ -460,7 +466,7 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
 
             if (Arraysize > 0)
             {
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WY($"The content in the garage {Arrayname} will be deleted...");
                 CC.W($"Type \"yes\" to proceed: ");
                 str = CC.RL();
@@ -470,20 +476,20 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
             {
                 Arraysize = 1;
                 Arrayname = "SkyPark";
-                garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
+                Garage = new Garage<Vehicle>(Arraysize); // Garage ges ny kapacitet.
                 rak = 0;
-                garage.Add(new Airplane("SE 55", 6, 12, "White", 8, 1300, 2, "Diesel/Kerosene"));
+                Garage.Add(new Airplane("SE 55", 6, 12, "White", 8, 1300, 2, "Diesel/Kerosene"));
                 rak++;
                 MenuUI.Str = Arrayname;
                 MenuUI.Cap = Arraysize;
                 MenuUI.Inr = rak;
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WB($"{Arrayname} has been seeded with {rak} vehicles");
                 CC.RL();
             }
             else
             {
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WY($"The seed operation was not carried out...");
                 CC.RL();
             }
@@ -495,27 +501,27 @@ namespace Ovn_5_Garage // Handler sköter anrop och validering.
             {
                 if (Arraysize < 1)
                 {
-                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                     CC.WY($"There is no garage or any capacity declared yet...");
                     CC.RL();
                 }
                 else
                 {
-                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                    CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                     CC.WY($"You try to add vehicles beyond the capacity for this garage...");
                     CC.RL();
                 }
             }
             else
             {
-                garage.Add(new Car("VWG333", 4, 4, "Yellow", "VW Golf", 3, 1550, 1, 2200, "Biofuel"));
+                Garage.Add(new Car("VWG333", 4, 4, "Yellow", "VW Golf", 3, 1550, 1, 2200, "Biofuel"));
                 rak++;
-                garage.Add(new Motorcycle("SUZ750", 2, 1, "White/blue", "Suzuki", 750, "Gasoline/Petrol"));
+                Garage.Add(new Motorcycle("SUZ750", 2, 1, "White/blue", "Suzuki", 750, "Gasoline/Petrol"));
                 rak++;
-                garage.Add(new Bus("BUS789", 6, 39, "Red", "Man", 14, 6120, 1, 3980, "Diesel/Kerosene"));
+                Garage.Add(new Bus("BUS789", 6, 39, "Red", "Man", 14, 6120, 1, 3980, "Diesel/Kerosene"));
                 rak++;
                 MenuUI.Inr = rak;
-                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, true);
+                CC.ClearIn(0, Yp2 - 5, 65, 2, 0, false);
                 CC.WB($"Three seeded vehicles has been added to {Arrayname}");
                 CC.RL();
             }

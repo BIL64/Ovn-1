@@ -20,4 +20,4 @@ internal class Program
 // med totalantalet (typ 2 of 32). Man kan nu även ta bort fordon när man söker med registreringsnummer.
 //
 // Update 221130 kvällstid: Kommenterat text och snyggat till olika delar.
-// Update 230602: Fixat till en mängd olika brister och felaktigheter. Bättre seedning bla.
+// Update 230603: Fixat till en mängd olika brister och felaktigheter. Bättre seedning bla.
