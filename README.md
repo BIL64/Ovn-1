@@ -1,5 +1,6 @@
 # Ovningar
 Övn 1, 2, 3.1-3.4, 4 och 5
+
 Tidiga övningar som ingår i Lexicons yrkesutbildning till .Net-programmerare.
 
 Inkapsling, Polymorfism, Arv och Minneshantering är grundläggande begrepp som
@@ -11,7 +12,7 @@ med olika djur eller fordon är ett återkommande tema för de som studerat vid
 Lexicon. Ett garage är som klippt och skuret för att träna hjärncellerna i
 att nyttja diverse funktioner i C#.
 
-Garagen är då modifierat såsom ett industrilager - att man inte bara kör in
+Garagen är då modifierade såsom ett industrilager - att man inte bara kör in
 och parkerar, utan att varje fordon noggrant bokförs och där alla möjliga
 egenskaper och regler tas med och sorteras. Just detta med "egenskaper" är
 något som utmärker objektorienterade programspråk. Ett objekt kan ha många
